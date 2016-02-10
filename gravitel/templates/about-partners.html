@@ -1,0 +1,33 @@
+{% extends "base-about.html" %}
+
+{% block body-id %}partners{% endblock %}
+
+{% block content-generated %}
+<h1>Наши клиенты:</h1>
+<table class="item-list">
+    {% for i in clientList %}
+    <tr>
+        <td class="td-1"><a href="/{{ i.img }}" target="_blank"><img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/></a></td>
+        <td class="td-2">
+            <h2>{{ i.title }}</h2>
+            <div class="content">{% autoescape off %}{{ i.content }}{% endautoescape %}</div>
+            <a class="url" href="{{ i.extr_url_http }}">{{ i.extr_url }}</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<h1>Наши партнеры:</h1>
+<table class="item-list">
+    {% for i in partnerList %}
+    <tr>
+        <td class="td-1"><a href="/{{ i.img }}" target="_blank"><img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/></a></td>
+        <td class="td-2">
+            <h2>{{ i.title }}</h2>
+            <div class="content">{% autoescape off %}{{ i.content }}{% endautoescape %}</div>
+            <a class="url" href="{{ i.extr_url_http }}">{{ i.extr_url }}</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %} 

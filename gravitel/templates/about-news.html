@@ -1,0 +1,17 @@
+{% extends "base-about.html" %}
+
+{% block body-id %}news{% endblock %} 
+
+
+{% block content-generated %}
+<div class="item-list">
+{% for i in items %}
+    <div class="item">
+        <span class="date">{{ i.created }}</span>
+        <h2 class="title">{{ i.title }}</h2>
+        <div class="news">{% autoescape off %}{{ i.content }}{% endautoescape %}</div>
+    </div>
+{% endfor %}
+</div>
+{% include "paginator.html" %}
+{% endblock %}

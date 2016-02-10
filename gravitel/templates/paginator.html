@@ -1,0 +1,7 @@
+{% if pageList %}
+{% ifnotequal pageCount 1 %}
+<div class="paginator">
+{% for i in pageList %}<a href="{% ifequal i 1 %}./{% else %}page-{{ i }}{% endifequal %}"{% ifequal curPage i %} class="current"{% endifequal %}>{{ i }}</a> {% endfor %}
+</div>
+{% endifnotequal %}
+{% endif %}

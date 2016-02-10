@@ -1,0 +1,99 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}index{% endblock %}
+
+{% block header-banner %}
+<script type="text/javascript">
+//<![CDATA[
+var bannerNo = 0
+var banner2No = 0
+var bannerData = [
+{% for i in bannerList %}    ['{{ i.title|escapejs }}', '{{ i.url|escapejs }}', '{{ i.content|escapejs }}', '{{ i.bg|escapejs }}']{% if not forloop.last %},{% endif %}
+{% endfor %}]
+var banner2Data = [
+{% for i in banner2List %}    ['{{ i.url|escapejs }}', '{{ i.img|escapejs }}']{% if not forloop.last %},{% endif %}
+{% endfor %}]
+
+preloadImages({% for i in bannerList %}'{{ i.bg|escapejs }}'{% if not forloop.last %},{% endif %}{% endfor %})
+preloadImages({% for i in banner2List%}'{{ i.img|escapejs }}'{% if not forloop.last %},{% endif %}{% endfor %})
+
+function bannerDelta(delta) {
+    bannerNo = (bannerData.length+bannerNo+delta)%bannerData.length
+    var b = bannerData[bannerNo]
+    var bg = 'url("/'+b[3].replace('\\', '/')+'")'
+    $('#banner').css('background-image', bg)
+    $('#banner a').text(b[0]).attr('href', b[1])
+    $('#banner div div').html('<div>'+b[2]+'</div>')
+}
+
+function banner2Delta(delta) {
+    banner2No = (banner2Data.length+banner2No+delta)%banner2Data.length
+    var b = banner2Data[banner2No]
+    var img = '/'+b[1].replace('\\', '/')
+    $('#td-banner2 a').attr('href', b[0])
+    $('#td-banner2 img').attr('src', img)
+}
+//]]>
+</script>
+
+<!--<span id="banner-previous" onclick="bannerDelta(-1)">-</span> <span id="banner-next" onclick="bannerDelta(1)">+</span> |
+<span id="banner2-previous" onclick="banner2Delta(-1)">-</span> <span id="banner2-next" onclick="banner2Delta(-1)">+</span>-->
+
+{% with bannerList.0 as b %}
+<table id="header-banner" class="w-all">
+    <tr style="height:221px">
+        <td id="forget">
+            <div>
+                <h1>Забудьте про:</h1>
+                — затраты на покупку АТС<br/>
+                — абонентскую плату за московские номера<br/>
+                — персонал по обслуживанию и настройке АТС<br/>
+                — монтаж телефонной сети внутри здания<br/>
+                — проблемы, связанные с сохранением номера при переезде<br/><br/>
+                <strong>ГРАВИТЕЛ</strong> решит все эти проблемы всего за <strong>500 рублей</strong> в месяц!<br/>
+
+            </div>
+        </td>
+        <td style="width:10px;"></td>
+        <td id="banner" style="width:293px; background:url('/{{ b.bg }}') no-repeat top left;">
+            <div><table style="width:100%"><tr>
+                <td style="width:0px"><img id="banner-left" src="/img/icon-arrow-left.png" alt="&lt;-" onclick="bannerDelta(-1)"/></td>
+                <td>
+                    <h1><a href="{{ b.url }}">{{ b.title }}</a></h1>
+                    <div>{% autoescape off %}{{ b.content }}{% endautoescape %}</div>
+                </td>
+                <td style="width:0px"><img id="banner-right" src="/img/icon-arrow-right.png" alt="&gt;-" onclick="bannerDelta(1)"/></td>
+            </tr></table></div>
+        </td>
+        <td style="width:25px;"></td>
+        <td class="w-col">{% include 'widget-2.html' %}</td>
+    </tr>
+</table>
+{% endwith %}
+{% endblock %}
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+{% if partnerList  %}
+<h1>Нам доверяют:</h1>
+<div id="trust">{% for i in partnerList %}<img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/> {% endfor %}</div>
+{% endif %}
+{% endblock %} 
+
+{% block right2 %}
+{% with banner2List.0 as b %}
+<div id="banner2">
+<h1>20 минут и готово!</h1>
+<table>
+<tr>
+<td style="width:34px"><a href="javascript:banner2Delta(-1)"><img src="/img/banner2-left.png" alt=""/></a></td>
+<td id="td-banner2" style="width:{{ b.w }}px"><a href="{{ b.url }}"><img width="{{ b.w }}" height="{{ b.h }}" src="/{{ b.img }}" alt=""/></a></td>
+<td style="width:34px"><a href="javascript:banner2Delta(1)"><img src="/img/banner2-right.png" alt=""/></a></td>
+</tr>
+</table>
+
+</div>
+{% endwith %}
+{% endblock %} 

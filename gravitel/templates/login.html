@@ -1,0 +1,11 @@
+{% extends "base-3.html" %}
+
+{% block title %}Вход для клиентов{% endblock %}
+
+{% block middle %}
+<h1>Вход для клиентов</h1>
+<form action="" method="post">
+{% autoescape off %}{{ form.as_p_br }}{% endautoescape %}
+<input class="butt" type="submit" value="Войти"/>
+</form>
+{% endblock %} 

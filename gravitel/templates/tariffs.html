@@ -1,0 +1,24 @@
+{% extends "base-3.html" %}
+
+{% block title %}Тарифы{% endblock %}
+
+{% block body-id %}tariffs{% endblock %}
+
+{% block left %}
+<h1>Тарифы:</h1>
+<ul class="left-ul">
+    <li{% if not url %} class="current"{% endif %}><a href="/tariffs/"{% if not url %} class="current"{% endif %}>ГРАВИТЕЛ</a></li>
+    <li{% ifequal url 'calls' %} class="current"{% endifequal %}><a href="/tariffs/calls/"{% ifequal url 'calls' %} class="current"{% endifequal %}>Звонки</a></li>
+    <li{% ifequal url 'numbers' %} class="current"{% endifequal %}><a href="/tariffs/numbers/"{% ifequal url 'numbers' %} class="current"{% endifequal %}>Телефонные номера</a></li>
+</ul>
+{% endblock %} 
+
+{% block middle %}
+<h1>ГРАВИТЕЛ</h1>
+<table class="tbl">
+    <tr><th>Название</th><th>Стоимость</th></tr>
+    <tr><td>Абонентская плата за 1 сотрудника</td><td class="price">{{ pricePerson }} руб/месяц</td></tr>
+    <tr><td>Абонентская плата за факс</td><td class="price">{{ priceFax }} руб/месяц</td></tr>
+    <tr><td>Абонентская плата за e-mail</td><td class="price">{{ priceEmail }} руб/месяц</td></tr>
+</table>
+{% endblock %} 

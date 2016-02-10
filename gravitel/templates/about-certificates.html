@@ -1,0 +1,19 @@
+{% extends "base-about.html" %}
+
+{% block body-id %}certificates{% endblock %}
+
+{% block content-generated %}
+<table class="item-list">
+    {% for i in items %}
+    <tr>
+        <td class="td-1"{% if not forloop.first %} style="padding-top:20px"{% endif %}>
+            <a href="/{{ i.img }}" target="_blank"><img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/></a>
+        </td>
+        <td class="td-2"{% if not forloop.first %} style="padding-top:20px"{% endif %}>
+            <h2>{{ i.title }}</h2>
+            <div class="content">{% autoescape off %}{{ i.content }}{% endautoescape %}</div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %} 

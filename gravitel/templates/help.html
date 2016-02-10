@@ -1,0 +1,58 @@
+{% extends "base-3.html" %}
+
+{% block title %}Помощь{% endblock %}
+
+{% block left %}
+<h1>Разделы помощи:</h1>
+{% with '/help/' as root %}{% include "catList.html" %}{% endwith %}
+{% endblock %} 
+
+{% block middle %}
+{% if cat %}<h1>{{ cat }}</h1>{% endif %}
+
+
+{% if subcatList %}
+<strong>Показать вопросы:</strong><br/>
+<select id="helpSubcats" style="width:100%;">
+<option value="/help/{{ catUrl }}/">Все</option>
+{% for i in subcatList %}
+<option value="/help/{{ catUrl }}/{{ i.url }}/"{% ifequal i.url subcatUrl %} selected="selected"{% endifequal %}>{{ i.title }}</option>
+{% endfor %}
+</select>
+<br/><br/>
+<script type="text/javascript">
+//<![CDATA[
+$('#helpSubcats').change(function() {
+    document.location = $(this).val()
+})
+//]]>
+</script>
+{% endif %}
+
+{% if cat %}
+{% for i in items %}
+<div style="padding-bottom:10px;"><strong><span class="question">Q: </span>{% autoescape off %}{{ i.question }}{% endautoescape %}</strong></div>
+<div style="padding-bottom:15px; border-bottom:1px dotted #aaa;"><span class="answer">A: </span>{% autoescape off %}{{ i.answer }}{% endautoescape %}</div>
+<br/>
+{% empty %}
+<p>Нет вопросов-ответов</p>
+{% endfor %}
+{% include "paginator.html" %}
+{% endif %}
+
+{% if emailDump %}
+<p>Вопрос отправлен</p>
+{% comment %}<pre>{{ emailDump }}</pre>{% endcomment %}
+{% else %}
+<h1>Задайте вопрос</h1>
+<form action="" method="post">
+{% autoescape off %}{{ form.as_p_br }}{% endautoescape %}
+<input class="butt" type="submit" value="Отправить"/>
+</form>
+{% endif %}
+
+{% if not cat %}
+{% include 'widget-4-2.html' %}
+{% endif %}
+
+{% endblock %} 

@@ -1,0 +1,9 @@
+{% if catList %}
+<ul class="left-ul">
+{% for i in catList %}
+    <li{% ifequal i.url catUrl %} class="current"{% endifequal %}><a href="{{ root }}{{ i.url }}/"{% ifequal i.url catUrl %} class="current"{% endifequal %}>{{ i.title }}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Пусто</p>
+{% endif %}

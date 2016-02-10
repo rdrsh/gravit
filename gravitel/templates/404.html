@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="/css/reset.css" rel="stylesheet" media="all" />
+    <link href="/css/style.css" rel="stylesheet" media="all" />
+    <title>{% block title %}Гравител{% endblock %}</title>
+    <style type="text/css">
+    body, html { height:100% }
+    #container { width:600px; height:300px; margin:auto; margin-top:100px; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+<h1 style="color:#e4951f">Ошибка 404:</h1>
+<h1>Запрашиваемая вами страница не найдена</h1>
+Но это не повод отчаиваться :)<br/><br/><br/>
+Попробуйте найти страницу через:<br/>
+<a href="/">Главная страница</a> или <a href="/site-map/">Карта сайта</a><br/><br/><br/>
+Также вы можете воспользоваться поиском по сайту:<br/> 
+{% include "widget-search-google.html" %}
+</div>
+
+</body>
+</html>

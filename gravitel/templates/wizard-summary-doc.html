@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Коммерческое предложение.</title>
+    <style type="text/css">
+        * { font-family:arial; font-size:95%; }
+        div#div-main, table { width:634px; }
+        div#div-main { padding:0; margin:0px auto; border-bottom:3px solid #00a0c6; }
+        h2 { padding:0; margin:0; }
+        th { background-color:#aaa; text-align:left; font-weight:normal; }
+        th, td { padding:2px 7px; }
+        td.sp { width:15px; }
+        .price { width:210px; text-align:center; }
+        
+        #tbl2 td { width:50%; vertical-align:top; }
+        
+    </style>
+</head>
+<body>
+
+<div id="div-main">
+
+{% include 'print-header-img.html' %}
+
+<h1 style="text-align:center">Коммерческое предложение.</h1>
+<p>Команда Гравител признательна Вам за то, что Вы проявили интерес к нашим услугам. 
+Мы ценим Ваше время, поэтому сразу перейдем  к цифрам:</p>
+
+<table id="tbl1">
+{% if numberTypeList %}
+    <tr><td colspan="2"><h2>Телефонные номера:</h2></td><td class="sp"></td><td class="price"></td></tr>
+    {% for i in numberTypeList %}
+        <tr><th colspan="2">{{ i.title }}</th><td class="sp"></td><th class="price"></th></tr>
+        {% for j in i.numbers %}
+            <tr><td colspan="2">{{ j.title }}</td><td class="sp"></td><td class="price">{{ i.price }} руб.</td></tr>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+
+    <tr><td colspan="2">&nbsp;</td><td class="sp"></td><td></td></tr>
+    <tr>
+        <th colspan="2"><strong>Количество сотрудников:</strong></th>
+        <td class="sp"></td>
+        <th class="price"><strong>{{ persons }}</strong></th>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td><td class="sp"></td><td></td></tr>
+    <tr>
+        <th colspan="2"><strong>Максимальное количество одновременных входящих линий</strong></th>
+        <td class="sp"></td>
+        <th class="price"><strong>{{ linesSum }}</strong></th>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td><td class="sp"></td><td></td></tr>
+    
+{% if productList %}
+    <tr><td colspan="2"><h2>Оборудование:</h2></td><td class="sp"></td><td class="price"></td></tr>
+    {% regroup productList by cat as catList %}
+        {% for cat in catList %}
+            <tr><th colspan="2">{{ cat.grouper.title }}</th><td class="sp"></td><th class="price"></th></tr>
+            {% for i in cat.list %}
+                <tr><td>{{ i.title }}</td><td class="count">{{ i.count }} шт.</td><td class="sp"></td><td class="price">{{ i.allPrice }} руб.</td></tr>
+            {% endfor %}
+        {% endfor %}
+{% endif %}
+
+    <tr><td colspan="2">&nbsp;</td><td class="sp"></td><td></td></tr>
+    <tr>
+        <th colspan="2"><strong>Абонентская плата за подключение {{ persons }} сотрудников составит:</strong></th>
+        <td class="sp"></td>
+        <th class="price"><strong>{{ monthSum }} руб/месяц</strong></th>
+    </tr>
+    <tr><td colspan="2">&nbsp;</td><td class="sp"></td><td></td></tr>
+    <tr>
+        <th colspan="2"><strong>Итого к оплате:</strong></th>
+        <td class="sp"></td>
+        <th class="price"><strong>{{ sum }} рублей в месяц</strong></th>
+    </tr>
+</table>
+<br/><br/>
+
+<h2>О цене и ценности:</h2>
+<p>«Цена - стоимость плюс разумное вознаграждение за угрызения совести при назначении цены». Амброз Бирс.</p>
+
+<p>Наша совесть чиста – за {{ monthSum }} рублей в месяц Вы получаете:</p>
+<table id="tbl2">
+    <tr>
+        <td>
+            <ul>
+                <li>Многоканальный номер</li>
+                <li>Функции офисной АТС</li>
+                <li>Бизнес-коммуникатор Гравител</li>
+                <li>Электронного секретаря</li>
+                <li>Интеллектуальную переадресацию</li>
+                <li>Интерактивное голосовое меню</li>
+                <li>Сервис «fax to e-mail»</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Возможность в любой момент докупить входящие номера и увеличить их «многоканальность»</li>
+                <li>Корпоративный почтовый  сервер и файловое хранилище.</li>
+                <li>Сервис «Мгновенные сообщения»</li>
+                <li>Конференц-связь</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
+<p>С уважением,<br/><span style="padding-left:100px;">команда Гравител.</span></p>
+
+</div>
+</body>
+</html>

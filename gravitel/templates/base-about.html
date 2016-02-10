@@ -1,0 +1,18 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}base-about{% endblock %}
+
+{% block left %}
+<h1>О компании:</h1>
+{% with aboutPageList as ulItems %}{% include "ul-items.html" %}{% endwith %}
+{% endblock %} 
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+	{% block content-generated %}
+	<a href="javascript:printVersion()" class="print-hide">Версия для печати</a><br/><br/>
+	{% include 'map.html' %}
+	{% endblock %} 
+{% endblock %} 

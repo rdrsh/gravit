@@ -1,0 +1,39 @@
+{% extends "base-3.html" %}
+
+{% block title %}Карта сайта{% endblock %}
+
+{% block body-id %}site-map{% endblock %}
+
+{% block middle %}
+<h1>Карта сайта</h1>
+<ul class="left-ul">
+    <li><a href="/">Главная страница</a></li>
+    <ul class="left-ul">
+        <li><a href="/services/">Услуги</a></li>
+        {% with '/services/' as ulRoot %}{% with services as ulItems %}{% include 'ul-items-slash.html' %}{% endwith %}{% endwith %}
+        <li><a href="/profit/">Выгоды</a></li>
+        <li><a href="/tariffs/">Тарифы</a></li>
+        <ul>
+            <li><a href="/tariffs/">ГРАВИТЕЛ</a></li>
+            <li><a href="/tariffs/calls/">Звонки</a></li>
+            <li><a href="/tariffs/numbers/">Телефонные номера</a></li>
+        </ul>
+        <li><a href="/payment/">Купить</a></li>
+        {% with '/payment/' as ulRoot %}{% with payment as ulItems %}{% include 'ul-items-slash.html' %}{% endwith %}{% endwith %}
+        <li><a href="/catalog/">Оборудование</a></li>
+        {% with '/catalog/' as ulRoot %}{% with productCats as ulItems %}{% include 'ul-items-slash.html' %}{% endwith %}{% endwith %}
+        <li><a href="/help/">Помощь</a></li>
+        {% with '/help/' as ulRoot %}{% with helpCats as ulItems %}{% include 'ul-items-slash.html' %}{% endwith %}{% endwith %}
+        <li><a href="/video/">Видео-файлы</a></li>
+        {% with '/video/' as ulRoot %}{% with videos as ulItems %}{% include 'ul-items-slash.html' %}{% endwith %}{% endwith %}
+        <li><a href="/login/">Вход для клиентов</a></li>
+        <ul>
+            <li><a href="/login/">Вход</a></li>
+            <li><a href="/registration/">Регистрация</a></li>
+        </ul>
+        <li><a href="/presentation/">Презентация</a></li>
+        <li><a href="/about/">О комнпании</a></li>
+        {% with '' as ulRoot %}{% with about as ulItems %}{% include 'ul-items.html' %}{% endwith %}{% endwith %}
+    </ul>
+</ul>
+{% endblock %} 

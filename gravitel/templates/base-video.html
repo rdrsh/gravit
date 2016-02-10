@@ -1,0 +1,16 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}base-video{% endblock %}
+
+{% block left %}
+<h1>Настройка сервисов:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+{% block content-generated %}{% endblock %}
+{% if not url %}{% include 'widget-4-2.html' %}{% endif %}
+{% endblock %} 

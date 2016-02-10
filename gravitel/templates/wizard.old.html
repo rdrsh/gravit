@@ -1,0 +1,362 @@
+{% extends "base-3.html" %}
+
+{% block body-id %}wizard{% endblock %}
+
+{% block head %}
+<script type="text/javascript" src="/js/thickbox.js"></script>
+<script type="text/javascript" src="/js/jquery.alphanumeric.js"></script>
+<style type="text/css">
+#tbl-numbers td { text-align:left;}
+h2 { padding-bottom:10px; }
+.added .butt { display:none; }
+</style>
+<script type="text/javascript">
+// <![CDATA[
+$(function(){
+    $('.modal-number input:checked').click()
+    $('.modal-number input').css('border', 'none')
+    $('#people-count').val(1)
+    $('#line-count').val(0)
+
+    $('#people-count').keyup(wiz2Update).numeric()
+    $('#check-fax').change(wiz2Update).css('border', 'none')
+    $('#check-email').change(wiz2Update).css('border', 'none')
+    $('#line-count').keyup(wiz2Update).numeric()
+    
+    
+    $('#wizard-3 .tbl').keyup(wiz3Update)
+    $('.wizard input:checked').click()
+
+    switchWizard(1)
+    wiz2Update()
+})
+
+var numTypePriceList = [{% for t in typeList %}{{ t.price }}{% if not forloop.last %},{% endif %}{% endfor %}]
+
+function switchWizard(i) {
+    if (i == 3 && $('#people-count').val() < 1) {
+        alert('Сотрудников должно быть 1 и более')
+        return
+    }
+    $('.wizard').hide()
+    // $('.wizard').show()
+    $('#wizard-'+i).show()
+}
+
+function wiz1GetSelected() {
+    var result = []
+    for (var i = 0; i < numTypePriceList.length; i++) {
+        var result2 = []
+        $('#modal-number-inner-'+i+' input:checked').each(function(){
+            result2.push($(this).attr('value').split('/', 2))
+        })
+        result.push(result2)
+    }
+    return result
+}
+
+var htmlDel = '<img src="/img/icon-delete.png" alt="-" onclick="wiz1Del($id)" title="Удалить"/> $title'
+
+function wiz1Update() {
+    var sum = 0
+    var data = wiz1GetSelected()
+    // alert($.dump(data))
+    for (var i = 0; i < data.length; i++) {
+		var row = data[i]
+		var html = []
+		for (var j = 0; j < row.length; j++) {
+            var id = row[j][0]
+            var title = row[j][1]
+			html.push(htmlDel.replace('$id', id).replace('$title', title))
+		}
+        var price = numTypePriceList[i]*row.length
+		html = html.join('<br/>')
+        // alert(price)
+		$('#cell-'+i).html(html)
+        $('#price-'+i).text(''+price+' руб.')
+        sum += price
+    }
+    $('#wizard-1 .wiz-sum .price').text(''+sum+' руб.')
+    $('#TB_closeWindowButton').click()
+    wiz12Update()
+}
+
+function wiz1Del(id) {
+    $('input#number-'+id).removeAttr('checked')
+    wiz1Update()
+}
+
+function wiz1GetUrl() {
+    var url = []
+    $('.modal-number input:checked').each(function(){
+        var id = $(this).attr('id').replace('number-', '')
+        url.push(id)
+    })
+    return url.join(',')
+}
+
+var pricePerson = {{ pricePerson }}
+var priceFax = {{ priceFax }}
+var priceEmail = {{ priceEmail }}
+var priceLine = {{ priceLine }}
+
+function wiz2Update() {
+    var x = 0
+    
+    var pc = $('#people-count').val()
+    
+    var x = pc*pricePerson
+    $('#people-price').text(x)
+    // alert($('#check-fax').val())
+    var y = $('#check-fax').attr('checked') ? priceFax*pc : 0
+    $('#fax-price').text(y)
+    var z = $('#check-email').attr('checked') ? priceEmail*pc : 0
+    $('#email-price').text(z)
+    var sum = x+y+z
+    $('#sum-2-price').text(sum)
+    
+    x = Math.ceil($('#people-count').val()/4)
+    x = x < 2 ? 2 : x
+    $('#line-count-free').text(x)
+
+    x = $('#line-count').val()*priceLine
+    $('#sum-line').text(x)
+
+    wiz12Update()
+    wizardSubmitUpdate()
+}
+
+function wiz12Update() {
+    var numCount = $(".modal-number-2 input:checked").length
+    var sum1 = numCount*1000
+    var sum2 = $('#sum-2-price').text()*1
+    var sumAll = sum1 > sum2 ? sum1 : sum2
+    $('#sum-all').text(sumAll)
+    $('#sumary-pay-per-month').text(sumAll+$('#line-count').val()*priceLine)
+}
+
+var productsAdded = {}
+var prodTemplate = '<tr id="wiz3-tr-$id"><td><img src="/img/icon-delete.png" alt="-" onclick="wiz3Del($id)" title="Удалить"/>&nbsp;$title</td><td><input value="1" maxlength="3" class="text"/></td><td class="price wiz-3-prod">$price руб</td></tr>'
+var catIdList = [{% for cat in catList %}{{ cat.id }}{% if not forloop.last %},{% endif %}{% endfor %}]
+function productAdd(catId, id, title, price) {
+    productsAdded[id] = 1
+    $('#TB_closeWindowButton').click()
+    $('#product-tbl-'+catId+' tbody').append(prodTemplate.replace('$id', id).replace('$id', id).replace('$title', title).replace('$price', price))
+    $('#wiz3-tr-'+id+' input').numeric()
+    wiz3Update()
+}
+
+function wiz3GetUrl() {
+    var url = []
+    for (var i = 0; i < catIdList.length; i++) {
+        var id = catIdList[i]
+        $('#product-tbl-'+id+' tbody tr').each(function(){
+            var price = ''+$('td.wiz-3-prod', this).text()
+            price = price.trim()
+            if (price) {
+                price = price.split(' ')[0]
+                count = $('input', this).val()
+                var id2 = $(this).attr('id').replace('wiz3-tr-', '')
+                url.push(''+id2+':'+count)
+            }
+        })
+    }
+    return url.join(',')
+}
+
+function wiz3Update() {
+    var allSum = 0
+    for (var i = 0; i < catIdList.length; i++) {
+        var id = catIdList[i]
+        var sum = 0
+        $('#product-tbl-'+id+' tbody tr').each(function(){
+            var price = ''+$('td.wiz-3-prod', this).text()
+            price = price.trim()
+            if (price) {
+                price = price.split(' ')[0]
+                count = $('input', this).val()
+                price = price*count
+                sum += price
+            }
+        })
+        $('#wiz3-sum-'+id).text(''+sum+' руб.')
+        allSum += sum
+    }
+    $('#wiz3-sum-all').text(''+allSum+' руб.')
+    wizardSubmitUpdate()
+}
+
+function wiz3Del(id) {
+    productsAdded[id] = 0
+    $('#wiz3-tr-'+id).replaceWith('')
+    wiz3Update()
+}
+
+function getAddedIds() {
+    var result = []
+    for (var k in productsAdded) {
+        if (productsAdded[k]) {
+            result.push('#product-'+k)
+        }
+    }
+    return result.join(',')
+}
+
+function getAddedIdList() {
+    alert(productsAdded)
+    var result = []
+    for (var k in productsAdded) {
+        if (productsAdded[k]) {
+            result.push(k)
+        }
+    }
+    return result
+}
+
+function wizardSubmitUpdate() {
+    var url = '/wizard/numbers-$numbers/persons-$persons/fax-$fax/email-$email/lines-$lines/catalog-$catalog/'
+    url = url.replace('$numbers', wiz1GetUrl())
+    url = url.replace('$persons', $('#people-count').val())
+    url = url.replace('$lines', $('#line-count').val())
+    url = url.replace('$fax', 0)
+    url = url.replace('$email', 0)
+    url = url.replace('$catalog', wiz3GetUrl())
+    $('#submit').attr('href', url)
+}
+
+function mClose () { 
+    $('#TB_closeWindowButton').click() 
+}
+// ]]>
+</script>
+{% endblock %}
+
+{% block middle %}
+{% for t in typeList %}
+<div style="display:none" class="modal-number" id="modal-number-{{ forloop.counter0 }}">
+    <div id="modal-number-inner-{{ forloop.counter0 }}" class="modal-number-2">
+        <h1>{{ t.title }} номер:</h1>
+        {% for i in t.numberList %}<div><input type="checkbox" id="number-{{ i.id }}" value="{{ i.id }}/{{ i.title }}"/> {{ i.title }}</div>{% endfor %}
+        <hr/>
+        <a href="javascript:mClose()" class="butt2">Назад</a> <a href="javascript:wiz1Update()" class="butt">Выбрать</a>
+    </div>
+</div>
+{% endfor %}
+
+<!-- wizard 1 -->
+<div class="wizard" id="wizard-1">
+    <h1>Мастер подбора услуги: Шаг 1 - Выбор номеров</h1>
+    Если у Вас есть свои входящие номера, то отказываться от них нет никакой
+    необходимости, Вы можете установить шлюз, с помощью которого все входящие звонки с Ваших старых номеров будут перенаправлены на оборудование ГРАВИТЕЛ. Вы даже не заметите разницу.<br/><br/>
+    
+    <h2>Выбор номеров:</h2>
+    {% for t in typeList %}
+        <div style="margin:10px 0;"><strong>{{ t.title }}</strong> — номера вида {% for i in t.numberList|slice:":3" %}{{ i.title }}{% if not forloop.last %}, {% endif %}{% endfor %} и т.д.</div>
+    {% endfor %}
+    
+    <table class="tbl" id="tbl-numbers" style="margin:10px 0 0px 0px; border-bottom:6px solid #eee;">
+        <tr>
+        {% for t in typeList %}
+            <th style="text-align:left;">
+                <a class="thickbox" href="#TB_inline?height=300&amp;width=400&amp;inlineId=modal-number-{{ forloop.counter0 }}">
+                    <img src="/img/icon-add.png" alt="+"  title="Добавить"/>
+                </a>
+                <a class="thickbox" href="#TB_inline?height=300&amp;width=400&amp;inlineId=modal-number-{{ forloop.counter0 }}">
+                    {{ t.title }}
+                </a>
+            </th>
+        {% endfor %}
+        </tr>
+        <tr>{% for t in typeList %}<td id="cell-{{ forloop.counter0 }}" class="price"></td>{% endfor %}</tr>
+        <tr>{% for t in typeList %}<td><span id="price-{{ forloop.counter0 }}" class="price">0 руб</span></td>{% endfor %}</tr>
+    </table>
+    <div class="wiz-sum">
+        Итого: <span id="wiz-3-price-{{ cat.id }}" class="price">0 руб</span>
+    </div>
+    <div class="wiz-nav">
+        <a href="javascript:switchWizard(2)" class="butt">Далее</a>
+    </div>
+</div>
+
+<div class="wizard" id="wizard-2" style="display:none">
+    <h1>Мастер подбора услуги: Шаг 2</h1>
+    <h2>Абонентская плата за сотрудников</h2>
+    Ежемесячная абонентская плата за сотрудников рассчитывается исходя из количества номеров и сотрудников. 
+    Количество входящих номеров умножается на 1000, полученная сумма сравнивается с ежемесячной стоимостью подключения одного сотрудника (500, 600 или 700 рублей в зависимости от объема услуг), умноженной на их количество.
+    В качестве абонентской платы в расчет принимается большая из этих двух сумм.<br/><br/>
+    <div style="display:none">
+    Абонентская плата за сотрудников в Вашем случае составляет: <span class="price" style="font-size:20px"><span id="sum-all" class="price">0</span>&nbsp;руб/месяц</span><br/><br/>
+    </div>
+    <table class="tbl tbl2">
+        <tr><th>Сотрудников</th><th>Факс</th><th>E-mail</th></tr>
+        <tr>
+            <td><input class="text" id="people-count" value="1" maxlength="3"/></td>
+            <td style="text-align:center; vertical-align:middle"><input type="checkbox" id="check-fax"/></td>
+            <td style="text-align:center; vertical-align:middle"><input type="checkbox" id="check-email"/></td>
+        </tr>
+        <tr>
+            <td><span class="price" id="people-price">0</span> <span class="price">руб/месяц</span></td>
+            <td><span class="price" id="fax-price">0</span> <span class="price">руб/месяц</span></td>
+            <td><span class="price" id="email-price">0</span> <span class="price">руб/месяц</span></td>
+        </tr>
+    </table>
+    <div class="wiz-sum">
+        Итого: <span id="sum-2-price" class="price">0</span> <span class="price">руб/месяц</span>
+    </div>
+
+    <h2>Максимальное количество одновременных входящих вызовов</h2>
+    Расчет этого параметра идет по следующей формуле: количество сотрудников делится на 4 и округляется в большую сторону. Но не менее 2. Стоимость одной дополнительной линии — <span class="price">{{ priceLine }} рублей/месяц</span><br/><br/>
+    <table class="tbl tbl2">
+        <tr><th>Бесплатно</th><th>Дополнительных линий</th></tr>
+        <tr>
+            <td style="text-align:center; vertical-align:middle" id="line-count-free">2</td>
+            <td style="vertical-align:middle"><input class="text" id="line-count" value="0" maxlength="3"/></td>
+        </tr>
+    </table>
+    <div class="wiz-sum">
+        Итого: <span id="sum-line" class="price">0</span> <span class="price">руб/месяц</span>
+    </div>
+    
+    Итоговая абонентская плата составляет: <span class="price" style="font-size:20px"><span id="sumary-pay-per-month" class="price">0</span>&nbsp;руб/месяц</span><br/><br/>
+
+    <div class="wiz-nav">
+        <a href="javascript:switchWizard(1)" class="butt2">Назад</a> <a href="javascript:switchWizard(3)" class="butt">Далее</a>
+    </div>
+</div>
+
+<div class="wizard" id="wizard-3" style="display:none">
+    <h1>Мастер подбора услуги: Шаг 3</h1>
+    {% for cat in catList %} 
+    <table class="tbl tbl2" id="product-tbl-{{ cat.id }}">
+        <thead>
+            <tr>
+                <th style="text-align:left">
+                    <a class="thickbox" href="/catalog/ajax/{{ cat.id }}/?height=600&amp;width=400">
+                        <img src="/img/icon-add.png" alt="+"  title="Добавить"/>
+                    </a>                
+                    {{ cat.title }}
+                </th>
+                <th style="width:80px">Кол-во</th>
+                <th style="width:93px">Стоимость</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="display:none"><td></td></tr>
+        </tbody>
+    </table>
+    <div class="wiz-sum">
+        Итого: <span class="price" id="wiz3-sum-{{ cat.id}}">0 руб</span>
+    </div>
+    
+    {% endfor %}
+    
+    <div class="wiz-sum" style="padding-top:0; margin-top:0">
+        Выбрано оборудования на сумму: <span class="price" id="wiz3-sum-all" style="font-size:26px">0 руб</span>
+    </div>
+    
+    <div class="wiz-nav">
+        <a href="javascript:switchWizard(2)" class="butt2">Назад</a> <a href="#" class="butt" id="submit">Далее</a>
+    </div>
+</div>
+
+{% endblock %} 

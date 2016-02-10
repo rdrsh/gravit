@@ -1,0 +1,30 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ i.title }}{% endblock %}
+
+{% block body-id %}product{% endblock %}
+
+{% block left %}
+<h1>Категории:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<div class="item">
+<h1>{{ i.title }}</h1>
+<table>
+	<tr>
+		<td style="padding-bottom:20px;">
+			<img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/>
+		</td>
+		<td>
+			<div>Категория <a href="/catalog/{{ i.cat.url }}/" style="color: #777;">{{ i.cat }}</a></div>
+			<span class="price"><strong>Цена:</strong> {{ i.price }} руб.</span>
+			<br/>
+			<br/>
+			<div class="order"><a class="butt" href="/order/{{ i.id }}/">Заказать</a></div>
+		</td>
+	</tr>
+</table>
+<div class="content">{% autoescape off %}{{ i.description }}{% endautoescape %}</div>
+{% endblock %} 

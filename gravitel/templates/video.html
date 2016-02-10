@@ -1,0 +1,19 @@
+{% extends "base-3.html" %}
+
+{% block title %}Видео: {{ i.title }}{% endblock %}
+
+{% block body-id %}base-video{% endblock %}
+
+{% block left %}
+<h1>Настройка сервисов:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %}
+
+{% block middle %}
+<h1>{{ i.title }}</h1>
+<div id="video">
+{% autoescape off %}
+{{ i.video }}
+{% endautoescape %}
+</div>
+{% endblock %} 

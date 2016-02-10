@@ -1,0 +1,15 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}base-services{% endblock %}
+
+{% block left %}
+<h1>Сервисы:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+{% block content-generated %}{% endblock %} 
+{% endblock %} 

@@ -1,0 +1,14 @@
+<div class="widget widget-3">
+<h1>Купить номер</h1>
+{% for i in rndNumbers %}
+<table style="width:100%; border-bottom:dotted 1px #aaa; margin-bottom:5px;">
+    <tr>
+        <td><a href="/tariffs/numbers/{{ i.type.url }}/">{{ i.type }}</a></td>
+        <td class="price" style="text-align:right;">{{ i.type.price }} руб</td>
+    </tr>
+    <tr>
+        <td style="padding:8px 0;">{{ i }}</td>
+    </tr>
+</table>
+{% endfor %}
+</div>

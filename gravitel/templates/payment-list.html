@@ -1,0 +1,25 @@
+{% extends "base-3.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}payment-list{% endblock %}
+
+{% block left %}
+<h1>Способы оплаты:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+<table class="item-list">
+    {% for i in items %}
+    <tr>
+        <td class="td-1"><img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/></td>
+        <td class="td-2">
+            <h2><a href="./{{ i.url }}">{{ i.title }}</a></h2>
+            <div class="annotation">{% autoescape off %}{{ i.annotation }}{% endautoescape %}</div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %} 

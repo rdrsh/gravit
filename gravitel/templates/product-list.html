@@ -1,0 +1,37 @@
+{% extends "base-3.html" %}
+
+{% block title %}Оборудование{% if cat %}: {{ cat }}{% endif %}{% endblock %}
+
+{% block body-id %}product-list{% endblock %}
+
+{% block left %}
+<h1>Категории:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<h1>{% if cat %}{{ cat }}{% else %}Оборудование{% endif %}</h1>
+
+<table class="item-list">
+    {% for i in items %}
+    <tr>
+        <td class="td-1" rowspan="2"><img width="{{ i.wSm }}" height="{{ i.hSm }}" src="/{{ i.img }}" alt="{{ i.title }}"/></td>
+        <td class="td-2" rowspan="2">
+            <h2><a href="/product/{{ i.id }}/">{{ i.title }}</a></h2>
+            {% if not cat %}<div style="color:#777">Категория <a style="color:#777" href="/catalog/{{ i.cat.url }}/">{{ i.cat }}</a></div>{% endif %}
+            <br/>
+            <div class="annotation">{% autoescape off %}{{ i.annotation }}{% endautoescape %}</div>        
+        </td>
+        <td class="td-3">
+            <div class="price"><strong>Цена:</strong><br/>{{ i.price }}&nbsp;руб.</div>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-4"><a class="butt" href="/order/{{ i.id }}/">Заказать</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% include "paginator.html" %}
+
+{% endblock %} 

@@ -1,0 +1,264 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% load adminmedia %}{% admin_media_prefix %}css/dashboard.css" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+{% endblock %}
+
+{% block coltype %}colMS{% endblock %}
+
+{% block bodyclass %}dashboard{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    
+        <!--<div class="module">
+        <table summary="Модели доступны в приложении Auth.">
+        <caption>Auth</caption>
+            <tr>
+                <th scope="row"><a href="auth/group/">Группы</a></th>
+                <td><a href="auth/group/add/" class="addlink">Добавить</a></td>
+                <td><a href="auth/group/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="auth/user/">Пользователи</a></th>
+                <td><a href="auth/user/add/" class="addlink">Добавить</a></td>
+                <td><a href="auth/user/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>-->
+    
+        <div class="module">
+        <table summary="">
+        <caption>Входящие</caption>
+            <tr>
+                <th scope="row"><a href="grmain/incoming/">Входящие</a></th>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        </div>
+        
+        <div class="module">
+        <table summary="">
+        <caption>Баннеры</caption>
+            <tr>
+                <th scope="row"><a href="grmain/banner/">Баннеры</a></th>
+                <td><a href="grmain/banner/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/banner/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/banner2/">Баннеры №2</a></th>
+                <td><a href="grmain/banner2/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/banner2/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+    
+        <div class="module">
+        <table summary="">
+        <caption>Меню</caption>
+            <tr>
+                <th scope="row"><a href="grmain/menutop/">Верхнее меню</a></th>
+                <td><a href="grmain/menutop/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/menutop/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/menubottom/">Нижнее меню</a></th>
+                <td><a href="grmain/menubottom/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/menubottom/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/menustart/">Меню &quot;С чего начать&quot;</a></th>
+                <td><a href="grmain/menustart/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/menustart/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+    
+        <div class="module">
+        <table summary="">
+        <caption>Помощь</caption>
+            <tr>
+                <th scope="row"><a href="grmain/helpcat/">Категории помощи</a></th>
+                <td><a href="grmain/helpcat/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/helpcat/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/helpsubcat/">Подкатегории помощи</a></th>
+                <td><a href="grmain/helpsubcat/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/helpsubcat/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/help/">Помощь</a></th>
+                <td><a href="grmain/help/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/help/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+
+        <div class="module">
+        <table summary="">
+        <caption>Звонки</caption>
+            <tr>
+                <th scope="row"><a href="grmain/callsng/">Звонки (СНГ)</a></th>
+                <td><a href="grmain/callsng/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/callsng/" class="changelink">Изменить</a></td>
+            </tr>
+        
+            <tr>
+                <th scope="row"><a href="grmain/callforeign/">Звонки (загр)</a></th>
+                <td><a href="grmain/callforeign/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/callforeign/" class="changelink">Изменить</a></td>
+            </tr>
+        
+            <tr>
+                <th scope="row"><a href="grmain/callrussia/">Звонки (рус)</a></th>
+                <td><a href="grmain/callrussia/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/callrussia/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/numbertype/">Типы номеров телефонов</a></th>
+                <td><a href="grmain/numbertype/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/numbertype/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/number/">Номера телефонов</a></th>
+                <td><a href="grmain/number/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/number/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+
+        <div class="module">
+        <table summary="">
+        <caption>Продукты</caption>
+            <tr>
+                <th scope="row"><a href="grmain/vendor/">Производители</a></th>
+                <td><a href="grmain/vendor/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/vendor/" class="changelink">Изменить</a></td>
+            </tr>
+        
+            <tr>
+                <th scope="row"><a href="grmain/productcat/">Категории продукта</a></th>
+                <td><a href="grmain/productcat/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/productcat/" class="changelink">Изменить</a></td>
+            </tr>
+        
+            <tr>
+                <th scope="row"><a href="grmain/product/">Продукты</a></th>
+                <td><a href="grmain/product/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/product/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+
+        <div class="module">
+        <table summary="">
+        <caption>О нас</caption>
+            <tr>
+                <th scope="row"><a href="grmain/news/">Новости</a></th>
+                <td><a href="grmain/news/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/news/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/employee/">Сотрудники</a></th>
+                <td><a href="grmain/employee/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/employee/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/certificate/">Сертификаты</a></th>
+                <td><a href="grmain/certificate/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/certificate/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/client/">Клиенты</a></th>
+                <td><a href="grmain/client/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/client/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/partner/">Партнеры</a></th>
+                <td><a href="grmain/partner/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/partner/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+    
+        <div class="module">
+        <table summary="">
+        <caption>Разное</caption>
+            <tr>
+                <th scope="row"><a href="grmain/payment/">Оплаты</a></th>
+                <td><a href="grmain/payment/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/payment/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/service/">Сервисы</a></th>
+                <td><a href="grmain/service/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/service/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/page/">Страницы</a></th>
+                <td><a href="grmain/page/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/page/" class="changelink">Изменить</a></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="grmain/settings/">Настройки</a></th>
+                <td><a href="grmain/settings/add/" class="addlink">Добавить</a></td>
+                <td><a href="grmain/settings/" class="changelink">Изменить</a></td>
+            </tr>
+        </table>
+        </div>
+
+        <div class="module">
+        <table summary="">
+        <caption>Статистика</caption>
+            <tr>
+                <th scope="row"><a href="https://www.google.com/analytics/settings/?et=reset" target="_blank">Статистика посещений</a></th>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row"><a href="http://www.google.com/search?source=ig&hl=en&rlz=&=&q=site%3Agravitel.ru&aq=f&oq=&aqi=" target="_blank">Проиндексировано Google</a></th>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Recent Actions' %}</h2>
+        <h3>{% trans 'My Actions' %}</h3>
+            {% load log %}
+            {% get_admin_log 10 as admin_log for_user user %}
+            {% if not admin_log %}
+            <p>{% trans 'None available' %}</p>
+            {% else %}
+            <ul class="actionlist">
+            {% for entry in admin_log %}
+            <li class="{% if entry.is_addition %}addlink{% endif %}{% if entry.is_change %}changelink{% endif %}{% if entry.is_deletion %}deletelink{% endif %}">
+                {% if entry.is_deletion %}
+                    {{ entry.object_repr }}
+                {% else %}
+                    <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <br/>
+                {% if entry.content_type %}
+                    <span class="mini quiet">{% filter capfirst %}{% trans entry.content_type.name %}{% endfilter %}</span>
+                {% else %}
+                    <span class="mini quiet">{% trans 'Unknown content' %}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}

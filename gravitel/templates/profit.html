@@ -1,0 +1,9 @@
+{% extends "base-2.html" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block body-id %}index{% endblock %}
+
+{% block middle %}
+<div class="content">{% autoescape off %}{{ page.content }}{% endautoescape %}</div>
+{% endblock %} 

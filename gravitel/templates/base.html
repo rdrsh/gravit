@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<head>
+
+<script type="text/javascript">
+// <![CDATA[
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-11170285-1");
+pageTracker._trackPageview();
+} catch(err) {}
+// ]]>
+</script>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link href="/css/reset.css" rel="stylesheet" media="all" />
+    <link href="/css/thickbox.css" rel="stylesheet" media="all" />
+    <link href="/css/style.css" rel="stylesheet" media="all" />
+    <script type="text/javascript" src="/js/jquery-1.3.1.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <style type="text/css" media="screen">
+    </style>
+{% block head %}{% endblock %}
+
+    <title>{% block title %}Гравител{% endblock %}</title>
+</head>
+<body id="{% block body-id %}body{% endblock %}">
+
+<table id="header-menu" class="w-all print-hide">
+    <tr>
+        <td class="w-col"></td>
+        <td style="width:25px;"></td>
+        <td id="menu-top">{% for i in menuTop %}<a href="{{ i.url }}">{{ i.title }}</a>{% if not forloop.last %}<span>|</span>{% endif %}{% endfor %}</td>
+        <td id="enter" style="text-align:right"><img src="/img/icon-enter.png" alt=""/> <a href="/login/">Вход для клиентов</a><br/><a href="/#" class="reg">Регистрироваться</a></td>
+    </tr>
+</table>
+
+<table id="header-icon" class="w-all print-hide">
+    <tr>
+        <td class="w-col"><a href="/"><img src="/img/logo.png" alt="Гравител"/></a></td>
+        <td>
+            <div>
+{% include 'menu-icon.html' %}
+            </div>
+        </td>
+        <td class="w-col" style="text-align:right; vertical-align:middle">
+            <span id="pre-contact-phone">{{ preContactPhone }}</span><span id="contact-phone">{{ contactPhone }}</span><br/>
+            <a href="mailto://{{ contactEmail }}">{{ contactEmail }}</a>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">setCur('#menu-top, #menu-icon')</script>
+
+{% block header-banner %}{% endblock %}
+{% block body %}{% endblock %}
+
+<table id="footer" class="w-all print-hide">
+    <tr>
+        <td class="cell-1" style="vertical-align:middle">{% for i in menuBottom %}<a href="{{ i.url }}">{{ i.title }}</a>{% if not forloop.last %}<span>|</span>{% endif %}{% endfor %}</td>
+
+        <td class="w-col" style="text-align:right">{% include "widget-search-google.html" %}</td>
+    </tr>
+    <tr>
+        <td class="cell-1" colspan="2">
+            <br/>
+            &copy; 2009 ООО &laquo;Гравител&raquo;<br/>
+            Все права защищены.<br/>
+            <a href="/" style="color:#00a0c6; font-size:14px;">www.gravitel.ru</a>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">setCur('#footer .cell-1, .widget-1'); $('.widget-1 a.current').parent().addClass('current')</script>
+</body>
+</html>

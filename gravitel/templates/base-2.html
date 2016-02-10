@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block body %}
+<table class="w-all">
+    <tr>
+        <td style="width:20px"></td>
+        <td id="col-m">
+{% block middle %}{% endblock %}            
+        </td>
+        <td style="width:20px"></td>
+        <td id="col-r" class="w-col">
+{% block right %}{% endblock %}            
+{% with widgetR as widget %}{% include 'widgets.html' %}{% endwith %}
+{% block right2 %}{% endblock %} 
+        </td>
+    </tr>
+</table>
+{% endblock %}            

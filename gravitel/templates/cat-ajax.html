@@ -1,0 +1,53 @@
+<div id="cat-ajax">
+
+<h1>{{ cat }}</h1>
+
+<table class="item-list">
+    {% for i in items %}
+    <tr id="product-{{ i.id }}">
+        <td class="td-1" rowspan="2"><img width="{{ i.wSm }}" height="{{ i.hSm }}" src="/{{ i.img }}" alt="{{ i.title }}"/></td>
+        <td class="td-2" rowspan="2">
+            <h2><a href="/product/{{ i.id }}/" target="_blank">{{ i.title }}</a></h2>
+            {% if not cat %}<div style="color:#777">Категория <a style="color:#777" href="/catalog/{{ i.cat.url }}/">{{ i.cat }}</a></div>{% endif %}
+            <br/>
+            <div class="annotation">{{ i.annotation }}</div>        
+        </td>
+        <td class="td-3">
+            <div class="price"><strong>Цена:</strong><br/>{{ i.price }}&nbsp;руб.</div>
+        </td>
+    </tr>
+    <tr id="product-{{ i.id }}-2">
+        <td class="td-4"><span class="butt" onclick="wiz3Add({{ cat.id }},{{ i.id }},'{{ i.title|escape|escapejs }}',{{ i.price }})">Выбрать</span></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script type="text/javascript">
+// <![CDATA[
+for (var id in productIdToCount) {
+    if (productIdToCount[id]) {
+        $('#product-'+id+'-2 .td-4').html('Выбрано')
+    }
+}
+// ]]>
+</script>
+
+{% if pageList %}
+{% ifnotequal pageCount 1 %}
+<div class="paginator">
+{% for i in pageList %}<a href="/catalog/ajax/{{ cat.id }}/page-{{ i }}"{% ifequal curPage i %} class="current"{% endifequal %}>{{ i }}</a> {% endfor %}
+</div>
+<script type="text/javascript">
+// <![CDATA[
+$('#cat-ajax .paginator a').click(function(){
+    $('#cat-ajax').load($(this).attr('href'))
+    return false
+})
+// ]]>
+</script>
+{% endifnotequal %}
+{% endif %}
+
+<span class="butt2" onclick="modHide()">Назад</span>
+
+</div>

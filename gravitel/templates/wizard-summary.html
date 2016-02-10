@@ -1,0 +1,43 @@
+{% extends "base-3.html" %}
+
+{% block body-id %}wizard-summary{% endblock %}
+{% block head %}
+{% endblock %}
+
+{% block middle %}
+<h1>Мастер подбора услуги: Шаг 4</h1>
+<a href="javascript:printVersion()" class="print-hide">Версия для печати</a>
+<table class="tbl">
+
+{% if numberTypeList %}
+<tr><td colspan="2" style="text-align:left"><h2>Телефонные номера</h2></td></tr>
+{% for i in numberTypeList %}
+    <tr><th>{{ i.title }}</th><th></th></tr>
+    {% for j in i.numbers %}
+        <tr><td style="text-align:left">{{ j.title }}</td><td class="price">{{ i.price }} руб.</td></tr>
+    {% endfor %}
+{% endfor %}
+{% endif %}
+
+<tr><td style="text-align:left">Количество сотрудников:</td><td>{{ persons }}</td></tr>
+<tr><td style="text-align:left">Максимальное количество одновременных вызовов:</td><td>{{ linesSum }}</td></tr>
+
+{% if productList %}
+<tr><td colspan="2" style="text-align:left"><h2>Оборудование</h2></td></tr>
+{% regroup productList by cat as catList %}
+    {% for cat in catList %}
+        <tr><th>{{ cat.grouper.title }}</th><th></th></tr>
+        {% for i in cat.list %}
+            <tr><td style="text-align:left">{{ i.title }}</td><td class="price">{% comment %}{{ i.price }}*{{ i.count }} = {% endcomment %}{{ i.allPrice }} руб.</td></tr>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+</table>
+<br/><br/>
+Итого к оплате: <span class="price" style="font-size:24px">{{ sum }} руб.</span><br/>
+Ежемесячная абонентская плата: <span class="price" style="font-size:24px">{{ monthSum }} руб/месяц</span><br/><br/>
+<div class="print-hide">
+<a href="#">Зарегистрироваться в системе</a><br/><br/>
+<a href="gravitel.html" class="butt">Сформировать коммерческое предложение</a>
+</div>
+{% endblock %} 

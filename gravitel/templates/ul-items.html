@@ -1,0 +1,5 @@
+<ul class="left-ul">
+{% for i in ulItems %}
+    <li{% ifequal i.url ulUrl %} class="current"{% endifequal %}><a href="{{ ulRoot }}{{ i.url }}"{% ifequal i.url ulUrl %} class="current"{% endifequal %}>{{ i.title }}</a></li>
+{% endfor %}
+</ul>

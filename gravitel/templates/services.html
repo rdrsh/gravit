@@ -1,0 +1,33 @@
+{% extends "base-3.html" %}
+
+{% block title %}Сервисы: {{ i.title }}{% endblock %}
+
+{% block body-id %}services{% endblock %}
+
+{% block left %}
+<h1>Сервисы:</h1>
+{% include "ul-items-slash.html" %}
+{% endblock %} 
+
+{% block middle %}
+<h1>{{ i.title }}</h1>
+<div class="tabs">
+<a href="/services/{{ url }}/"{% if not isVideo %} class="current"{% endif %}>Описание</a>
+<a href="/services/{{ url }}/video/"{% if isVideo %} class="current"{% endif %}>Как настроить?</a>
+</div>
+{% if not isVideo %}
+<div class="content">
+{% autoescape off %}
+{{ i.content }}
+{% endautoescape %}
+</div>
+{% else %}
+<div id="video">
+{% autoescape off %}
+{% if i.settings %}{{ i.settings }}{% endif %}
+<br/>
+{{ i.video }}
+{% endautoescape %}
+</div>
+{% endif %}
+{% endblock %} 

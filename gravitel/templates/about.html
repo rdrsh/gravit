@@ -1,0 +1,17 @@
+{% extends "base-about.html" %}
+
+{% block body-id %}about{% endblock %}
+
+{% block content-generated %}
+<table class="item-list">
+    {% for i in items %}
+    <tr>
+        <td class="td-1"><img width="{{ i.w }}" height="{{ i.h }}" src="/{{ i.img }}" alt="{{ i.title }}"/></td>
+        <td class="td-2">
+            <h2>{{ i.title }}</h2>
+            <div class="content">{% autoescape off %}{{ i.content }}{% endautoescape %}</div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %} 

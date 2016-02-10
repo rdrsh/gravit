@@ -1,0 +1,22 @@
+{% extends "tariffs.html" %}
+
+{% block title %}Телефонные номера: {{ type }}{% endblock %}
+
+{% block body-id %}tariffs-numbers{% endblock %}
+
+{% block middle %}
+<h1>Номера: {{ type }}</h1>
+
+<div class="tabs">
+{% for i in typeList %}<a href="/tariffs/numbers/{{ i.url }}/"{% ifequal i.url url2 %} class="current"{% endifequal %}>{{ i.title }}</a> {% endfor %}
+</div>
+
+<div>Стоимость номера {{ type }}: <span class="price">{{ type.price }} руб</span></div><br/>
+
+<table class="tbl">
+    <tr><th>Номер</th><th>&nbsp;</th></tr>
+{% for i in items %}    
+    <tr><td>{{ i.title }}</td><td><a href="/login/{{ i.id }}/">Купить</a></td></tr>
+{% endfor %}    
+</table>
+{% endblock %} 

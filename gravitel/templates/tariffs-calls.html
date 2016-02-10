@@ -1,0 +1,74 @@
+{% extends "tariffs.html" %}
+
+{% block title %}Стоимость звонков{% endblock %}
+
+{% block body-id %}tariffs-calls{% endblock %}
+
+{% block middle %}
+<h1>Стоимость звонков</h1>
+
+<div class="tabs">
+<a href="/tariffs/calls/russia/"{% ifequal url2 'russia' %} class="current"{% endifequal %}>Россия</a> 
+<a href="/tariffs/calls/sng/"{% ifequal url2 'sng' %} class="current"{% endifequal %}>СНГ</a> 
+<a href="/tariffs/calls/foreign/"{% ifequal url2 'foreign' %} class="current"{% endifequal %}>Международные</a> 
+</div>
+
+<input id="find" /> <input class="butt" id="find-button" type="button" value="найти"/> <input class="butt2" id="reset-button" type="button" value="сброс"/><br/><br/>
+
+<table id="calls" class="tbl">
+    <thead>
+        <tr><th>Код</th><th>Направление</th><th>Стоимость, руб.<br/>стац./моб.</th></tr>
+    </thead>
+    <tbody>
+    {% for i in items %}    
+        <tr><td class="search">{{ i.code }}</td><td class="search">{{ i.direction }}</td><td>{{ i.price }}/{{ i.price_mob }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+
+function filterCalls() {
+    var s = $('#find').val()
+    if (s) {
+        s = s.toLowerCase()
+        $('table#calls tbody tr').each(function(){
+            var text = $('td.search', this).text().toLowerCase()
+            if (text.indexOf(s) == -1) {
+                $(this).hide()
+            }
+            else {
+                $(this).show()
+            }
+        })
+    }
+    else {
+        $('table#calls tbody tr').show()
+    }
+}
+
+$('#find-button').click(filterCalls)
+$('#reset-button').click(function(){
+    $('#find').val('')
+    filterCalls()
+})
+
+
+$('#find').keyup(function(e) {
+    if(e.keyCode == 13) { filterCalls(); }
+});
+
+var opts = { 
+    headers: { 
+        2: { sorter: false }
+    }
+}
+$("table#calls").tablesorter(opts) 
+
+//]]>
+</script>
+
+{% endblock %} 

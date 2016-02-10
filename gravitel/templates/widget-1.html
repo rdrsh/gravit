@@ -1,0 +1,6 @@
+<div class="widget widget-1">
+<h1>С чего начать?</h1>
+{% for i in menuStart %}
+<div><a href="{{ i.url }}" title="{{ i.title }}">{{ i.title }}</a></div>
+{% endfor %}
+</div>

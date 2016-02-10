@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Гравител</title>
+</head>
+<body>
+<table>
+{% if numberTypeList %}
+<tr><td colspan="2"><h2>Телефонные номера</h2></td></tr>
+{% for i in numberTypeList %}
+    <tr><th>{{ i.title }}</th><th></th></tr>
+    {% for j in i.numbers %}
+        <tr><td>{{ j.title }}</td><td class="price">{{ i.price }} руб.</td></tr>
+    {% endfor %}
+{% endfor %}
+{% endif %}
+
+<tr><td>Количество сотрудников:</td><td>{{ persons }}</td></tr>
+<tr><td>Максимальное количество одновременных вызовов:</td><td>{{ linesSum }}</td></tr>
+
+{% if productList %}
+<tr><td colspan="2"><h2>Оборудование</h2></td></tr>
+{% regroup productList by cat as catList %}
+    {% for cat in catList %}
+        <tr><th>{{ cat.grouper.title }}</th><th></th></tr>
+        {% for i in cat.list %}
+            <tr><td>{{ i.title }}</td><td class="price">{{ i.price }}*{{ i.count }} = {{ i.allPrice }} руб.</td></tr>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+</table>
+
+Итого к оплате: <span class="price">{{ sum }} руб.</span><br/>
+Ежемесячная абонентская плата: <span class="price">{{ monthSum }} руб/месяц</span><br/><br/>
+</body>
+</html>

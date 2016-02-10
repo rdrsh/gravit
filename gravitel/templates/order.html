@@ -1,0 +1,26 @@
+{% extends "base-3.html" %}
+
+{% block title %}Оформление заказа{% endblock %}
+
+{% block left %}
+<h1>Категории:</h1>
+{% with '/catalog/' as root %}{% include "catList.html" %}{% endwith %}
+{% endblock %} 
+
+{% block middle %}
+<h1>Оформление заказа</h1>
+Модель: <strong><a href="/product/{{ i.id }}/">{{ i.title }}</a></strong>
+<div>Категория <a style="color:#888" href="/catalog/{{ i.cat.url }}/">{{ i.cat }}</a></div>
+<span class="price">Цена: {{ i.price }} руб.</span><br/><br/>
+
+{% if emailDump %}
+<p>Заказ отправлен</p>
+{% comment %}<pre>{{ emailDump }}</pre>{% endcomment %}
+{% else %}
+<form action="" method="post">
+{% autoescape off %}{{ form.as_p_br }}{% endautoescape %}
+<input class="butt" type="submit" value="Отправить"/>
+</form>
+{% endif %}
+
+{% endblock %} 
